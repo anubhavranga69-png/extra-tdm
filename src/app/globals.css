@@ -1,0 +1,196 @@
+/* ════════════════════════════════════════════════
+   THE DETAILING MAFIA — Pure Cinematic Scroll CSS
+════════════════════════════════════════════════ */
+:root {
+    --bg:        #080808;
+    --red:       #c41e3a;
+    --white:     #f8f8f8;
+    --grey:      #9ca3af;
+    --transition: 0.4s cubic-bezier(0.2, 0, 0, 1);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--font-outfit), sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* SCROLL CONTAINER */
+.site-wrapper {
+    position: relative;
+    z-index: 1;
+    background: transparent;
+}
+
+.scroll-container { 
+    position: relative; 
+}
+
+.canvas-viewport {
+    position: fixed; 
+    top: 0; left: 0;
+    width: 100vw; 
+    height: 100vh;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    z-index: -1; 
+    background: #000;
+}
+
+#logo-canvas { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; 
+}
+
+/* LOADER */
+.loader {
+    position: fixed; 
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2000; 
+    text-align: center;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 16px;
+    pointer-events: none;
+}
+
+.loader.hidden { display: none; }
+
+.loader-text {
+    font-size: 12px; 
+    font-weight: 700; 
+    letter-spacing: 5px;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.loader-bar {
+    width: 280px; 
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    position: relative; 
+    overflow: hidden;
+    --progress: 0%;
+}
+
+.loader-bar::after {
+    content: ''; 
+    position: absolute; 
+    left: 0; top: 0;
+    width: var(--progress); 
+    height: 100%;
+    background: var(--red); 
+    transition: width 0.3s ease;
+}
+
+.loader-pct { 
+    font-size: 11px; 
+    font-weight: 600; 
+    letter-spacing: 3px; 
+    color: var(--red); 
+}
+
+/* ACTION HUB (BOTTOM RIGHT) */
+.action-hub {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    z-index: 1000;
+}
+
+/* Common Sticker Styles */
+.music-sticker, .whatsapp-sticker, .ai-button {
+    width: 52px; height: 52px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px; /* Square with rounded corners for a modern look */
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    cursor: pointer; 
+    transition: var(--transition);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.music-sticker:hover, .whatsapp-sticker:hover, .ai-button:hover { 
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* MUSIC SPECIFIC */
+.bars { display: flex; justify-content: center; align-items: flex-end; gap: 3px; height: 18px; }
+.bar { width: 3px; height: 100%; background: var(--red); border-radius: 1px; }
+.playing .bar { animation: bounce 0.8s ease-in-out infinite alternate; }
+.playing .bar:nth-child(2) { animation-delay: 0.1s; }
+.playing .bar:nth-child(3) { animation-delay: 0.2s; }
+.playing .bar:nth-child(4) { animation-delay: 0.3s; }
+.paused .bar { height: 3px !important; opacity: 0.4; }
+
+@keyframes bounce { 0% { height: 4px; } 100% { height: 18px; } }
+
+/* WHATSAPP SPECIFIC */
+.whatsapp-sticker { color: #f8f8f8; }
+.whatsapp-sticker:hover { background: #25D366; color: #fff; border-color: #25D366; }
+
+/* AI ROBOT BUTTON */
+.ai-button { position: relative; overflow: visible; font-size: 1.4rem; }
+.ai-button:hover { background: #4a90e2; border-color: #4a90e2; }
+.ai-ripple {
+    position: absolute;
+    inset: -2px;
+    border: 2px solid #4a90e2;
+    border-radius: 12px;
+    opacity: 0;
+    pointer-events: none;
+    animation: ripple 2s ease-out infinite;
+}
+@keyframes ripple {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.4); opacity: 0; }
+}
+
+/* SCROLL HINT */
+.scroll-hint {
+    position: fixed; 
+    bottom: 30px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 10px;
+    z-index: 500;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+}
+
+.scroll-hint span { 
+    font-size: 10px; 
+    letter-spacing: 4px; 
+    color: rgba(255, 255, 255, 0.3); 
+    font-weight: 500; 
+}
+
+.scroll-line {
+    width: 1px; 
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse { 
+    0%, 100% { opacity: 0.3; } 
+    50% { opacity: 0.8; } 
+}
