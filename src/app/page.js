@@ -15,6 +15,29 @@ export default function Home() {
     
     const [isPlaying, setIsPlaying] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [currentFrame, setCurrentFrame] = useState(0);
+    const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+
+    const contentSections = [
+        {
+            id: 1,
+            title: "Precision in Motion",
+            text: "Every frame of our craft is dedicated to perfection. Experience the art of detailing like never before.",
+            range: [10, 40]
+        },
+        {
+            id: 2,
+            title: "The Shine of Royalty",
+            text: "Using world-class ceramic coatings and premium care to give your vehicle a legendary finish.",
+            range: [50, 80]
+        },
+        {
+            id: 3,
+            title: "Join The Mafia",
+            text: "Welcome to India's most premium detailing experience. Your ride deserves the best.",
+            range: [95, 120]
+        }
+    ];
 
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
@@ -30,13 +53,16 @@ export default function Home() {
         const images = [];
         const imageSeq = { frame: 0 };
 
-        const currentFrame = (index) => 
+        const getFramePath = (index) => 
             `/scroll animation pics/4e19bda8f1814060bf08c6812cf26969_${(index + 1).toString().padStart(3, '0')}.png`;
 
         let loadedCount = 0;
 
         const renderDrawing = () => {
-            const img = images[Math.round(imageSeq.frame)];
+            const frameIndex = Math.round(imageSeq.frame);
+            setCurrentFrame(frameIndex);
+            
+            const img = images[frameIndex];
             if (!img || !img.complete) return;
             
             context.clearRect(0, 0, canvas.width, canvas.height);
@@ -94,7 +120,7 @@ export default function Home() {
         // Preload images
         for (let i = 0; i < frameCount; i++) {
             const img = new Image();
-            img.src = currentFrame(i);
+            img.src = getFramePath(i);
             img.onload = () => {
                 loadedCount++;
                 const pct = (loadedCount / frameCount) * 100;
@@ -146,6 +172,19 @@ export default function Home() {
                     <canvas id="logo-canvas" ref={canvasRef}></canvas>
                 </section>
 
+                {/* Cinematic Content Sections */}
+                <div className="content-overlay">
+                    {contentSections.map(section => (
+                        <div 
+                            key={section.id} 
+                            className={`cinematic-section ${currentFrame >= section.range[0] && currentFrame <= section.range[1] ? 'active' : ''}`}
+                        >
+                            <h2>{section.title}</h2>
+                            <p>{section.text}</p>
+                        </div>
+                    ))}
+                </div>
+
                 {/* UI Overlays */}
                 <div id="loader" className={`loader ${!isLoading ? 'hidden' : ''}`} ref={loaderRef}>
                     <div className="loader-text">THE DETAILING MAFIA</div>
@@ -177,9 +216,22 @@ export default function Home() {
                     </a>
 
                     {/* AI Robot Button */}
-                    <div className="ai-button" title="Ask any question">
+                    <div className="ai-button" onClick={() => setIsAIModalOpen(true)} title="Ask any question">
                         <div className="ai-icon">🤖</div>
                         <div className="ai-ripple"></div>
+                    </div>
+                </div>
+
+                {/* AI Modal */}
+                <div className={`modal-overlay ${isAIModalOpen ? 'open' : ''}`}>
+                    <div className="ai-modal">
+                        <button className="close-modal" onClick={() => setIsAIModalOpen(false)}>&times;</button>
+                        <h3>Mafia AI Concierge</h3>
+                        <p>Ask anything about our services, ceramic coatings, or membership benefits. We are here to help!</p>
+                        <div className="ai-input-group">
+                            <input type="text" placeholder="Type your message..." />
+                            <button>Send</button>
+                        </div>
                     </div>
                 </div>
 
