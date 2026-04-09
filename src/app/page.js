@@ -242,16 +242,3 @@ export default function Home() {
         </div>
     );
 }
-
-                <div className="scroll-hint" id="scroll-hint" ref={scrollHintRef} style={{ opacity: 0 }}>
-                    <span>SCROLL TO EXPLORE</span>
-                    <div className="scroll-line"></div>
-                </div>
-
-                <div className="spacer"></div>
-                {/* Long scroll area to facilitate the animation */}
-                <div style={{ height: '400vh' }}></div>
-            </div>
-        </div>
-    );
-}
