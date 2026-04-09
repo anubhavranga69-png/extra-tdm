@@ -167,6 +167,18 @@ export default function Home() {
     return (
         <div id="site-wrapper" className="site-wrapper" ref={containerRef}>
             <div className="scroll-container">
+                {/* Navigation Bar */}
+                <nav className="navbar">
+                    <a href="#" className="nav-brand">THE DETAILING MAFIA</a>
+                    <div className="nav-links">
+                        <a href="#" className="nav-link active">Home</a>
+                        <a href="#" className="nav-link">Services</a>
+                        <a href="#" className="nav-link">About</a>
+                        <a href="#" className="nav-link">Contact</a>
+                    </div>
+                    <button className="nav-btn">Book Now</button>
+                </nav>
+
                 <section className="canvas-viewport">
                     <canvas id="logo-canvas" ref={canvasRef}></canvas>
                 </section>
@@ -205,6 +217,13 @@ export default function Home() {
                             <div className="bar"></div><div className="bar"></div>
                         </div>
                     </div>
+                </div>
+
+                {/* Footer Socials */}
+                <div className="footer-socials">
+                    <a href="#" className="social-icon">INSTAGRAM</a>
+                    <a href="#" className="social-icon">FACEBOOK</a>
+                    <a href="#" className="social-icon">YOUTUBE</a>
                 </div>
 
                 <audio id="bg-music" loop ref={audioRef}>
